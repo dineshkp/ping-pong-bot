@@ -12,7 +12,7 @@ client.on('message', (message) => {
 	// do not proceed if the message does not begin with the prefix.
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-	const args = message.content.slice(prefix.length).split(' ');
+	const args = message.content.slice(prefix.length).split(/ +/);
 	const command = args.shift().toLowerCase();
 
 	switch (command) {
@@ -23,7 +23,17 @@ client.on('message', (message) => {
 		replyBoop(message);
 		break;
 	case 'server':
-		replyServerName(message);
+		switch(args[0]) {
+		case 'name':
+			replyServerName(message);
+			break;
+		case 'members-count':
+			replyServerMembersCount(message);
+			break;
+		default:
+			message.channel.send('maybe you are looking for name, members-count ?');
+			break;
+		}
 		break;
 	default:
 		return message.channel.send('I don\'t know how to help you there');
@@ -40,6 +50,10 @@ const replyBoop = (message) => {
 
 const replyServerName = message => {
 	message.channel.send(`This server's name is: **${message.guild.name}**`);
+};
+
+const replyServerMembersCount = message => {
+	message.channel.send(`This server's name is: **${message.guild.memberCount}**`);
 };
 
 client.login(process.env.DISCORD_TOKEN).then(() => {
