@@ -21,6 +21,9 @@ client.on('message', (message) => {
 	case `${prefix}beep`:
 		replyBoop(message);
 		break;
+	case `${prefix}server`:
+		replyServerName(message);
+		break;
 	default:
 		return message.channel.send('I don\'t know how to help you there');
 	}
@@ -32,6 +35,10 @@ const replyPong = (message) => {
 
 const replyBoop = (message) => {
 	message.channel.send('Boop');
+};
+
+const replyServerName = message => {
+	message.channel.send(`This server's name is: **${message.guild.name}**`);
 };
 
 client.login(process.env.DISCORD_TOKEN).then(() => {
