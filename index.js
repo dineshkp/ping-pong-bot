@@ -10,18 +10,19 @@ client.once('ready', () => {
 
 client.on('message', (message) => {
 	// do not proceed if the message does not begin with the prefix.
-	if (!message.content.startsWith(prefix)) return;
+	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-	const command = message.content.split(' ')[0];
+	const args = message.content.slice(prefix.length).split(' ');
+	const command = args.shift().toLowerCase();
 
 	switch (command) {
-	case `${prefix}ping`:
+	case 'ping':
 		replyPong(message);
 		break;
-	case `${prefix}beep`:
+	case 'beep':
 		replyBoop(message);
 		break;
-	case `${prefix}server`:
+	case 'server':
 		replyServerName(message);
 		break;
 	default:
@@ -30,11 +31,11 @@ client.on('message', (message) => {
 });
 
 const replyPong = (message) => {
-	message.channel.send('Pong');
+	message.channel.send('pong');
 };
 
 const replyBoop = (message) => {
-	message.channel.send('Boop');
+	message.channel.send('boop');
 };
 
 const replyServerName = message => {
